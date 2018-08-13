@@ -19,37 +19,40 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
                     <archive>
-                        <index>true</index>
+                        <manifestFile>
+                            MANIFEST.MF
+                        </manifestFile>
                         <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries/>
                         </manifest>
-                        <manifestEntries>
-                            <Premain-Class>com.mebigfatguy.exagent.ExAgent</Premain-Class>
-                        </manifestEntries>
                     </archive>
-                    <finalName>exagent</finalName>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
-                        <!-- this is used for inheritance merges -->
                         <phase>package</phase>
-                        <!-- append to the packaging phase. -->
                         <goals>
-                            <goal>single</goal>
-                            <!-- goals == mojos -->
+                            <goal>shade</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>org.ow2.asm:asm:jar:</include>
+                        </includes>
+                    </artifactSet>
+                </configuration>
             </plugin>
         </plugins>
     </build>
